@@ -1,3 +1,4 @@
+
 # entity-matchers
 Source code for "Progression or Stagnation? A Worrying Analysis of Neural Entity Matchers"
 
@@ -28,3 +29,28 @@ In order to run the code, you need to do the following steps:
   Unzip them and put them in any directory (you will need to provide the path to the .vec file as well).
 
 ## Reproduction of results
+In order to run any of the experiments, cd in `/src`, activate the previously created virtual environment and run the following command:
+
+```
+python3 -u run_experiment.py \
+        --method METHOD \
+        --root_dataset DATASET_ROOT \
+        --dataset DATASET \
+        --dataset_division DATASET_DIVISION \
+        --out_folder OUT_FOLDER \
+        --gpu GPU_ID \
+        --main_embeds MAIN_FILE \
+        --args ARGUMENTS_FILE > LOG_FILE.log 
+```
+Where the following commands should be substituted with:
+  1. `METHOD`: `RDGCN`, `BootEA` or `PARIS`, according to the experiment you want to replicate
+  2. `DATASET_ROOT`: path to the directory that contains the dataset you need. For example, assume you want to run the main
+  experiment on the DBP_en_YG_en_15K_V1, and you have downloaded the datasets in your `~/Download` folder, then `DATASET_ROOT`
+  should be: `~/Downloads/datasets/main` (note that there must be no final slash).
+  3. `DATASET`: the name of the dataset, in the example above `DBP_en_YG_en_15K_V1`.
+  4. `DATASET_DIVISION`: the dataset division in folds, in our experiments `721_5folds` which stands for 70% test, 20% train, 10% validation, in 5 random folds (in order to repeat the same experiment 5 times, for robustness).
+  5. `OUT_FOLDER`: folder where you want to store the output of the approach (and the final alignments). We recommend you create an `output/`  folder in the root directory of the repository, and for every experiment you create its own subfolder (like `output/main/DBP_en_YG_en_15K_V1` and so on).
+  6. `GPU_ID`: mention it only if you have more than one GPU on your machine (ids are integers starting from zero, check for them using the command `nvidia-smi`. If you have only one GPU or you are running on CPU, do not use the argument `--gpu` in the first place.
+  7. `MAIN_FILE`: the main file, which is `../../OpenEA_Mod/run/main_from_args.py`.
+  8. `ARGUMENTS_FILE`: useful only if you are running BootEA or RDGCN, use the correct hyper parameter file that you can find under `/src/experiments/
+  9. `LOG_FILE.log`: file where the output will be written. At the end of the log file you will find the F1-score of the run.

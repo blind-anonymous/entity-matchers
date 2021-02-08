@@ -56,7 +56,7 @@ Where the following commands should be substituted with:
   9. `LOG_FILE.log`: file where the output will be written. At the end of the log file you will find the F1-score of the run.
 Finally, note that, when running RDGCN, it is necessary to specify the location of the word embeddings file  (`wiki-news-300d-1M.vec`): in order to do so, open the directory `src/experiments/args_best`, modify the `rdgcn_args_*.json` files putting the absolute path of the word embeddings as param `word_embeds`.
 
-Just to give an example, assuming that we want to replicate the result of the paper's Table 4 for DB-YG-15K, then the following command will do the job:
+Just to give an example, assuming that we want to replicate the result of the paper's Table 5 for DB-YG-15K, then the following command will do the job:
 ```
 python3 -u run_experiment.py \
         --method RDGCN \
@@ -68,3 +68,32 @@ python3 -u run_experiment.py \
         --main_embeds ../../OpenEA_Mod/run/main_from_args.py \
         --args args_best/rdgcn_args_DBP_YG_15K.json > output/main/RDGCN_DBP_YG_15K/log_file.log 
 ``` 
+
+## Datasets description
+Here is a short description of the datasets that you can find in the datasets zip:
+
+```
+├── main
+│   ├── DBP_en_WD_en_100K_V1
+│   ├── DBP_en_WD_en_15K_V1
+│   ├── DBP_en_YG_en_100K_V1
+│   └── DBP_en_YG_en_15K_V1
+├── no_attributes
+│   ├── DBP_en_WD_en_15K_V1_no_attr
+│   └── DBP_en_YG_en_15K_V1_no_attr
+├── no_extra_attributes
+│   ├── DBP_en_WD_en_100K_no_extra
+│   ├── DBP_en_WD_en_15K_no_extra
+│   ├── DBP_en_YG_en_100K_no_extra
+│   └── DBP_en_YG_en_15K_no_extra
+├── increasing_seed
+│   ├── DBP_en_WD_en_15K_V1_incr_seed
+│   └── DBP_en_YG_en_15K_V1_incr_seed
+└── sparse
+    └── DBP_en_YG_en_15K_V1_sparse
+```
+- `main` datasets are the ones you need to reproduce the results of Table 5 (RealEA). 
+- `no_attributes` are the ones you need to reproduce AttRealEA point 1, total absence of attributes.
+- `no_extra_attributes` are used to reproduce the results of AttRealEA point 2.
+- `increasing_seed` are used to reproduce SupRealEA. Note that such datasets have a slight different structure.
+- `sparse` is the experiment SpaRealEA.

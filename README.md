@@ -48,12 +48,13 @@ Where the following commands should be substituted with:
   experiment on the DBP_en_YG_en_15K_V1, and you have downloaded the datasets in your `~/Download` folder, then `DATASET_ROOT`
   should be: `~/Downloads/datasets/main` (note that there must be no final slash).
   3. `DATASET`: the name of the dataset, in the example above `DBP_en_YG_en_15K_V1`.
-  4. `DATASET_DIVISION`: the dataset division in folds, in our experiments `721_5folds` which stands for 70% test, 20% train, 10% validation, in 5 random folds (in order to repeat the same experiment 5 times, for robustness).
+  4. `DATASET_DIVISION`: the dataset division in folds, in our experiments `721_5folds` which stands for 70% test, 20% train, 10% validation, in 5 random folds (in order to repeat the same experiment 5 times, for robustness). The only time when you shall specify a different argument than 721_5folds is when runnign experiments with the `increasing_seed` dataset: in such case, it is enough to use as argument `631_5folds/SEED` where `SEED` is any among `1_seed`, `5_seed`, `10_seed`, `20_seed`, `30_seed`.
   5. `OUT_FOLDER`: folder where you want to store the output of the approach (and the final alignments). We recommend you create an `output/`  folder in the root directory of the repository, and for every experiment you create its own subfolder (like `output/main/DBP_en_YG_en_15K_V1` and so on).
   6. `GPU_ID`: (only for RDGCN and BootEA) mention it only if you have more than one GPU on your machine (ids are integers starting from zero, check for them using the command `nvidia-smi`). If you are running PARIS, or if you have one or no GPU at all, do not use the argument `--gpu` in the first place. 
   7. `MAIN_FILE`: the main file, which is `../../OpenEA_Mod/run/main_from_args.py`. Use only for RDGCN and BootEA, if you are running PARIS do not use the argument `--main_embeds`.
   8. `ARGUMENTS_FILE`: useful only if you are running BootEA or RDGCN, use the correct hyper parameter file that you can find under `/src/experiments/`. If you are running PARIS, do not use this argument.
   9. `LOG_FILE.log`: file where the output will be written. At the end of the log file you will find the F1-score of the run.
+
 Finally, note that, when running RDGCN, it is necessary to specify the location of the word embeddings file  (`wiki-news-300d-1M.vec`): in order to do so, open the directory `src/experiments/args_best`, modify the `rdgcn_args_*.json` files putting the absolute path of the word embeddings as param `word_embeds`.
 
 Just to give an example, assuming that we want to replicate the result of the paper's Table 5 for DB-YG-15K, then the following command will do the job:
@@ -92,7 +93,7 @@ Here is a short description of the datasets that you can find in the datasets zi
 └── sparse
     └── DBP_en_YG_en_15K_V1_sparse
 ```
-- `main` datasets are the ones you need to reproduce the results of Table 5 (RealEA). 
+-  `main` datasets are the ones you need to reproduce the results of Table 5 (RealEA). 
 - `no_attributes` are the ones you need to reproduce AttRealEA point 1, total absence of attributes.
 - `no_extra_attributes` are used to reproduce the results of AttRealEA point 2.
 - `increasing_seed` are used to reproduce SupRealEA. Note that such datasets have a slight different structure.

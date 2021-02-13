@@ -20,12 +20,14 @@ In order to run the code, you need to do the following steps:
   If you prefer another name for the virtual environment, just change `entity_match` with your 
   desired name. This may take a while, depending on your internet connection. When it has finished,
   activate the virtual environment: `conda activate entity_match`.
+
+  4. Install the openEA package: cd in `OpenEA_Mod/` and type the command `pip install -e .`. 
   
-  4. Download the datasets: you can find them following the link 
+  5. Download the datasets: you can find them following the link 
   https://drive.google.com/drive/folders/1x-8OonL8SMDpNyfGyBmwzsgQL_zVMojx?usp=sharing. 
   Extract the zip in any directory (you will need to provide the path to the datasets later).
   
-  5. Download the word embeddings at the link https://dl.fbaipublicfiles.com/fasttext/vectors-english/wiki-news-300d-1M.vec.zip.
+  6. Download the word embeddings at the link https://dl.fbaipublicfiles.com/fasttext/vectors-english/wiki-news-300d-1M.vec.zip.
   Unzip them and put them in any directory (you will need to provide the path to the .vec file as well).
 
 ## Reproduction of results
@@ -66,8 +68,8 @@ python3 -u run_experiment.py \
         --dataset_division 721_5folds \
         --out_folder output/main/RDGCN_DBP_YG_15K \
         --gpu 0 \
-        --main_embeds ../../OpenEA_Mod/run/main_from_args.py \
-        --args args_best/rdgcn_args_DBP_YG_15K.json > output/main/RDGCN_DBP_YG_15K/log_file.log 
+        --main_embeds ../OpenEA_Mod/run/main_from_args.py \
+        --args experiments/args_best/rdgcn_args_DBP_YG_15K.json > output/main/RDGCN_DBP_YG_15K/log_file.log 
 ``` 
 
 ## Datasets description

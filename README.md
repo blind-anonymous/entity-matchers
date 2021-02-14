@@ -102,8 +102,10 @@ Here is a short description of the datasets that you can find in the datasets zi
 - `sparse` is the experiment SpaRealEA.
 
 ## Datasets sampling
-The source code to run the IDS* algorithm is provided under `SampKG-OpenEA` folder for your convenience. If you want to create samples of any pair of KGs, you need to follow these steps:
-1. Locate the file `strategy.py` under `SampKG-OpenEA/src/sampkg/generator` and add a new dictionary of the following format (the example reported is for the DBP_en_YG_en_100K_V1 dataset):
+The source code to run the IDS* algorithm is provided under `SampKG-OpenEA` folder for your convenience. If you want to create samples of any pair of KGs, you need to follow these steps (after you activated the environment):
+
+1. Download the full datasets zip `full_kgs.zip` from [https://zenodo.org/record/4540561#.YClg3nVKhhE	](https://zenodo.org/record/4540561#.YClg3nVKhhE) and uncompress it in a folder or your convenience. The zip contains a directory for each datasets (containing relation triples plus attribute triples) plus a directory containing the seed alignment between DBPedia and YAGO (`ent_links_dbpedia_yago`) and betweehn DBPedia and Wikidata (`ent_links_dbpedia_wikidata`).
+2. Locate the file `strategy.py` under `SampKG-OpenEA/src/sampkg/generator` and add a new dictionary of the following format (the example reported is for the DBP_en_YG_en_100K_V1 dataset):
 ```
 SAMPLE_NAME = {
     'max_degree_kg1': 100,
@@ -119,13 +121,15 @@ Where the parameters must be changed in the following way:
 - `SAMPLE_NAME`: is the name to give to the sample (note this name must be used later on when running the script).
 - `max_degree_kg1`: maximum entity degree that will be considered during sampling for KG1 (all the entities in KG1 with degree > `max_degree_kg1` will be considered as having degree = `max_degree_kg1`)
 - `max_degree_kg2`: same as `max_degree_kg1` for KG2.
-- `delete_ratio`: the ratio of entities that will be deleted at each step of IDS* (Parameter $\mu$ from the original algorithm). The higher this value, the higher the number of entities deleted at each iteration and hence the faster the algorithm (NOTE that if you choose a value which is too high, the algorithm may fail, deleting more entities than the given limit)
+- `delete_ratio`: the ratio of entities that will be deleted at each step of IDS* (Parameter $\mu$ from the original algorithm). The higher this value, more the entities deleted at each step and faster the algorithm (Note that if you choose a too high value the algorithm may fail, deleting more entities than the given limit)
 - `delete_random_ratio`: the ratio of entities randomly deleted at each step (NOTE: used only if the entities deleted by PageRank probabilistically are not enough for the given step)
-- `delete_degree_ratio`: when `delete_limit` is reached, entities start to be deleted by degree (from the lowest to the highest) up to when the correct number of entities is reached (as deleting only by PageRank is too unpredictable). This parameter measures the ratio of entities deleted this way at every step.
+- `delete_degree_ratio`: when `delete_limit` is reached entities start to be deleted by degree (from the lowest to the highest) up to when the correct number of entities is reached (as deleting only by PageRank is too much unpredictable). This parameter measure the ratio of entities deleted this way at every step.
 - `delete_limit`: when to stop deleting using PageRank and start deleting by degree with respect to the number of matchable entities you want.
 - `preserve_num`: number of entities with highest degree to preserve. If this number is greater than 0, `preserve_num` entities with the highest degree will be added again and IDS* will delete by degree up to when the number of matchable entities required is reached again.
 
-2. Move to the `SampKG-OpenEA/sampkg/src` folder and run the following command:
+Hyper-parameters settings to produce datasets similar to the one we used are already given inside `strategy.py`.
+
+3. Move to the `SampKG-OpenEA/sampkg/src` folder and run the following command:
 ```
   python3 main.py \
     --target_dataset SAMPLE_NAME \
@@ -144,14 +148,14 @@ Where the parameters are:
 - `KG1_attr_triple_path`: path to the attribute triples of the KG1.
 - `KG2_rel_triple_path`: path to the relation triples of the KG2.
 - `KG2_attr_triple_path`: path to the attribute triples of the KG2.
-- `ent_link_path`: path to the ground truth for the pair of KGs. NEED TO UPLOAD SOME OF THEM ONLINE??
+- `ent_link_path`: path to the ground truth for the pair of KGs.
 - `ent_link_num`: number specifying how many matchable entities there will be in the final sample
-- `delete_param`: the upscale factor presented in the algorithm IDS* from the paper. The higher the factor, the smaller the size of non-matchable entities.
+- `delete_param`: the upscale factor presented in the algorithm IDS* from the paper. The higher the factor, smaller the size of non-matchable entities.
 - `output_folder`: folder where the sample will be stored (under `OUT_FOLDER/SAMPLE_NAME`). Note that you must give a `/` at the end of the folder path
 
-Finally, note that relation triples and attribute triples must follow the same format usef among all of our datasets, i.e. `ENTITY \t RELATION/PROPERTY \t ENTITY/LITERAL` and the ground truth must be instead of the form `ENTITY1 \t ENTITY2` .
+Finally, note that relation triples and attribute triples must follow the same format usef among all of our datasets, i.e. `ENTITY TAB RELATION/PROPERTY TAB ENTITY/LITERAL` and the ground truth must be instead of the form `ENTITY1 TAB ENTITY2`(as it is for the datasets we provide).
 
-For example, a dataset similar to our DBP_en_YG_en_100K_V1 can be obtained with the command (supposing that the full datasets are stored in `dbpedia/` and `yago3.1/`, while the alignment in `alignment/` and a folder `output/` exists).
+For example, a dataset similar to our DBP_en_YG_en_100K_V1 can be obtained with the command (supposing that the `full_kgs.zip` is decompressed inside `SampKG-OpenEA/sampkg/src` and a folder `output/` exists in the same directory). A `delete_param` of 2.5 will produce around 30% of non-matchable entities for this dataset.
 ```
   python3 main.py \
       --target_dataset DBP_en_YG_en_100K_V1 \

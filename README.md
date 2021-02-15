@@ -1,6 +1,6 @@
 
 # entity-matchers
-Source code for "Progression or Stagnation? A Worrying Analysis of Neural Entity Matchers"
+Source code for "A Critical Re-evaluation of Neural Methods for Entity Alignment"
 
 ## Installation process
 In order to run the code, you need to do the following steps: 
